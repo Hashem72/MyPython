@@ -1,0 +1,16 @@
+#!/software/bin/python2.7
+
+#note: try using /software/bin/python2.7  for running your python code!
+
+import sys
+import os
+import time
+
+mapable = open("/nfs/th_group/hk3/MAPPABLE_DATA_HG19/UCSC_MAPABLE/hg19.K36.mappable_only.bed", "r")
+header_line = mapable.readline()
+first_line  = mapable.readline()
+print header_line
+print first_line
+mapable.close()
+
+    

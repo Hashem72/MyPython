@@ -1,0 +1,102 @@
+#!/software/bin/python2.7
+
+#note: try using /software/bin/python2.7  for running your python code!
+
+import sys
+import os
+import commands
+import numpy
+import time
+
+print numpy.version.version
+
+
+
+import GET_UNION_OF_FEATURES
+
+arg = sys.argv
+    
+UW_mappable_file = arg[1]
+RGLAB_mappable_file = arg[2]
+result_file         = arg[3]
+res_file = open(result_file,'w')
+
+print result_file
+
+UW_coverage    = GET_UNION_OF_FEATURES.get_coverage(UW_mappable_file)
+RGLAB_coverage = GET_UNION_OF_FEATURES.get_coverage(RGLAB_mappable_file)
+intersect      = UW_coverage.intersection(RGLAB_coverage)
+UW_not_RG      = UW_coverage.difference(RGLAB_coverage)
+RG_not_UW      = RGLAB_coverage.difference(UW_coverage)
+union          = UW_coverage.union(RGLAB_coverage)
+inter_len      = len(intersect)
+U_not_R_len    = len(UW_not_RG)
+R_not_U_len    = len(RG_not_UW)
+union_len      = len(union)
+del UW_coverage
+del RGLAB_coverage
+del intersect 
+del UW_not_RG
+del RG_not_UW
+res_file.write("intersection\t UW but not RG\t RG but not UW\t union\n ")
+one_line = str(inter_len)+"\t"+str(U_not_R_len)+"\t"+str(R_not_U_len)+"\t"+str(union_len)+ "\n"
+res_file.write(one_line)
+res_file.close()
+#print "intersection: ", inter_len, " UW and not RG: ", U_not_R_len, " RG and not UW: ", R_not_U_len, "union: ",  union_len 
+sys.exit()
+
+
+
+
+
+
+
+
+# whole_genome_mappable_files = ['/nfs/th_group/hk3/MAPPABLE_DATA_HG19/MAPPABLE_COMPARISIONS/UW_hg18.K27.mappable_only.bed',
+#                                '/nfs/th_group/hk3/MAPPABLE_DATA_HG19/MAPPABLE_COMPARISIONS/RGLAB_hg18.K27.mappable_only.bed']
+# chr_information_file = '/nfs/th_group/hk3/MAPPABLE_DATA_HG19/MAPPABLE_COMPARISIONS/chromInfo.hg18.bed'
+# cif = open(chr_information_file,'r')
+# for l in cif:
+#     chr_name, b, chr_length, d =  l.split()
+#     print "chromosome " + chr_name+ "is under action!"
+#     chr_specific_output_file   = chr_name+".bed"
+#     pair_of_coverages = []
+#     for mappable in whole_genome_mappable_files:
+#         cmd = 'grep -e "^'+chr_name+'\t" '+  mappable+' > '+chr_specific_output_file
+#         commands.getstatusoutput(cmd)
+#         one_coverage = GET_UNION_OF_FEATURES.get_coverage(chr_specific_output_file)
+#         pair_of_coverages.append(one_coverage)
+#         del one_coverage
+#         os.remove(chr_specific_output_file)
+#     intersect = numpy.intersect1d(pair_of_coverages[0], pair_of_coverages[1])
+#     intersect_length = len(intersect)
+#     print intersect_length
+#     del intersect
+#     del pair_of_coverages
+
+
+#        # print cmd
+
+    
+                                 
+
+
+
+
+# whole_genome_mappable_file = '/nfs/th_group/hk3/MAPPABLE_DATA_HG19/MAPPABLE_COMPARISIONS/UW_hg18.K27.mappable_only.bed'
+# chr_name                   = 'chr1'
+# chr_specific_output_file   = chr_name+'.bed'
+# file_name = sys.argv[1]
+# print file_name
+
+# cmd = 'grep -e "^'+chr_name+'\t" '+ whole_genome_mappable_file+' > '+chr_specific_output_file
+# #print cmd
+# commands.getstatusoutput(cmd)
+
+# print '='*50
+# start = time.clock()
+# chr11 = GET_UNION_OF_FEATURES.get_coverage_np(chr_specific_output_file)
+# end   = time.clock()
+# print "%.2gs" % (end-start)
+# os.remove(chr_specific_output_file)
+
