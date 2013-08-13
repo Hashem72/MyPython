@@ -1,0 +1,5 @@
+import urllib
+proxies = {'http':  'http://wwwcache.sanger.ac.uk:3128'}
+opener = urllib.FancyURLopener(proxies)
+f = opener.open("http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeSydhTfbs/")
+f.read()
